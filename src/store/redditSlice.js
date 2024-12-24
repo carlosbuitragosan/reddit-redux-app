@@ -17,7 +17,7 @@ const initialState = {
     status: 'idle',
     error: null,
   },
-  selectedSubreddit: '/r/pics',
+  selectedSubreddit: {},
 };
 
 export const fetchPosts = createAsyncThunk(
@@ -87,7 +87,7 @@ const redditSlice = createSlice({
       .addCase(fetchComments.fulfilled, (state, action) => {
         const { postId, comments } = action.payload;
         state.comments.byPostId[postId] = comments;
-        state.comments.status = 'pending';
+        state.comments.status = 'succeded';
         state.comments.error = null;
       })
       .addCase(fetchComments.rejected, (state, action) => {

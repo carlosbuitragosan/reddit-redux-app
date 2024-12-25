@@ -1,25 +1,31 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import React, { useMemo, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { Subreddits } from '../subreddits/Subreddits';
 import {
   fetchPosts,
   fetchSubreddits,
   setSelectedSubreddit,
+  selectSelectedSubreddit,
+  selectSubreddits,
+  selectPostsByUrl,
 } from '../../store/redditSlice';
-import { Subreddits } from '../subreddits/Subreddits';
 
 export const Posts = () => {
   const dispatch = useDispatch();
 
-  // select the state from the store
-  const subreddits = useSelector((state) => state.reddit.subreddits.list || []);
+  // get the subreddit url from the hardoded state
+  const subreddit = useSelector(selectSelectedSubreddit);
+
+  // get the list of subreddits (which is empty at first)
+  const subreddits = useSelector(selectSubreddits);
+
+  // get the status of the posts
   const postsStatus = useSelector((state) => state.reddit.posts.status);
   const postsError = useSelector((state) => state.reddit.posts.error);
-  const subreddit = useSelector((state) => state.reddit.selectedSubreddit);
 
-  const posts = useSelector((state) =>
-    subreddit ? state.reddit.posts.bySubreddit[subreddit.url] || [] : [],
-  );
+  //find the post based on the subreddit url (which will be undefined at first)
+  const posts = useSelector((state) => selectPostsByUrl(state, subreddit));
 
   // fetch subreddits when list is empty
   useEffect(() => {

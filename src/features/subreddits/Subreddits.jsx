@@ -1,34 +1,46 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   fetchPosts,
-  fetchSubreddits,
   setSelectedSubreddit,
+  selectSubreddits,
 } from '../../store/redditSlice';
 
 export const Subreddits = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const subreddits = useSelector((state) => state.reddit.subreddits.list);
-  const subreddit = useSelector((state) => state.reddit.selectedSubreddit);
-  console.log('subreddit: ', subreddit);
-  // useEffect(() => {
 
-  // }, [dispatch, subreddit]);
+  // get the subreddits list from the state
+  const subreddits = useSelector(selectSubreddits);
 
-  const handleSubredditChange = (subreddit) => {
+  // get the status of the subreddits
+  const subredditsStatus = useSelector(
+    (state) => state.reddit.subreddits.status,
+  );
+  const subredditsError = useSelector((state) => state.reddit.subreddits.error);
+
+  // get the selected subreddit from the state
+  // const subreddit = useSelector((state) => state.reddit.selectedSubreddit);
+
+  const handleSubredditClick = (subreddit) => {
+    //set new selected subreddit from the list bellow and based on that fetch posts
     dispatch(setSelectedSubreddit(subreddit));
     dispatch(fetchPosts(subreddit.url));
-    navigate(`/subreddits/${subreddit.id}`);
   };
+
+  if (subredditsStatus === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (subredditsStatus === 'failed') {
+    return <div>Error: {subredditsError || 'something went wrong.'}</div>;
+  }
 
   const renderedSubreddits = subreddits.map((subreddit) => {
     return (
       <Link
-        onClick={() => handleSubredditChange(subreddit)}
-        key={subreddit.id}
         to={`/subreddits/${subreddit.id}`}
+        onClick={() => handleSubredditClick(subreddit)}
+        key={subreddit.id}
       >
         <div>
           <p>{subreddit.display_name}</p>
@@ -39,7 +51,6 @@ export const Subreddits = () => {
 
   return (
     <div>
-      <h1>Subreddits</h1>
       <div>{renderedSubreddits}</div>
     </div>
   );

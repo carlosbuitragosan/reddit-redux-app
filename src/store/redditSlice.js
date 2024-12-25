@@ -99,3 +99,32 @@ const redditSlice = createSlice({
 
 export const { setSelectedSubreddit } = redditSlice.actions;
 export default redditSlice.reducer;
+
+// selectPostsByUrl
+export const selectPostsByUrl = (state, subreddit) =>
+  subreddit ? state.reddit.posts.bySubreddit[subreddit.url] || [] : [];
+
+// selectSelectedSubreddit
+export const selectSelectedSubreddit = (state) =>
+  state.reddit.selectedSubreddit;
+
+// selectSubredditById
+export const selectSubredditById = (state, subredditId) =>
+  state.reddit.subreddits.list.find(
+    (subreddit) => subreddit.id === subredditId,
+  );
+
+// selectSubreddits
+export const selectSubreddits = (state) => state.reddit.subreddits.list || [];
+
+// selectCommentsById
+export const selectCommentsById = (state, postId) =>
+  state.reddit.comments.byPostId[postId] || [];
+
+//find the post by subreddit url and postId. check for subreddit to prevent errors.
+export const selectPostById = (state, subreddit, postId) =>
+  subreddit
+    ? state.reddit.posts.bySubreddit[subreddit.url]?.find(
+        (post) => post.id === postId,
+      )
+    : null;

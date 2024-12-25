@@ -8,8 +8,8 @@ import {
 import { Posts } from './features/posts/Posts';
 import { Navbar } from './app/Navbar';
 import { Subreddits } from './features/subreddits/Subreddits';
-import { PostComments } from './features/posts/PostComments';
-import { SubredditPage } from './features/subreddits/SubredditPage';
+import { PostComments } from './features/comments/Comments';
+import { SubredditPage } from './features/subreddits/SubredditsPosts';
 import './App.css';
 
 function App() {

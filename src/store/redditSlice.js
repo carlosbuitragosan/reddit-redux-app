@@ -17,14 +17,14 @@ const initialState = {
     status: 'idle',
     error: null,
   },
-  selectedSubreddit: {},
+  selectedSubreddit: { url: '/r/pics/' },
 };
 
 export const fetchPosts = createAsyncThunk(
   'reddit/fetchPosts',
-  async (subreddit) => {
-    const posts = await getSubredditPosts(subreddit);
-    return { subreddit, posts };
+  async (subredditUrl) => {
+    const posts = await getSubredditPosts(subredditUrl);
+    return { subredditUrl, posts };
   },
 );
 
@@ -55,12 +55,12 @@ const redditSlice = createSlice({
     builder
       //fetch posts
       .addCase(fetchPosts.pending, (state) => {
-        state.status = 'loading';
+        state.posts.status = 'loading';
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        const { subreddit, posts } = action.payload;
-        state.posts.bySubreddit[subreddit] = posts;
-        state.status = 'succeded';
+        const { subredditUrl, posts } = action.payload;
+        state.posts.bySubreddit[subredditUrl] = posts;
+        state.posts.status = 'succeeded';
         state.posts.error = null;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
@@ -73,7 +73,7 @@ const redditSlice = createSlice({
       })
       .addCase(fetchSubreddits.fulfilled, (state, action) => {
         state.subreddits.list = action.payload;
-        state.subreddits.status = 'succeded';
+        state.subreddits.status = 'succeeded';
         state.subreddits.error = null;
       })
       .addCase(fetchSubreddits.rejected, (state, action) => {
@@ -87,7 +87,7 @@ const redditSlice = createSlice({
       .addCase(fetchComments.fulfilled, (state, action) => {
         const { postId, comments } = action.payload;
         state.comments.byPostId[postId] = comments;
-        state.comments.status = 'succeded';
+        state.comments.status = 'succeeded';
         state.comments.error = null;
       })
       .addCase(fetchComments.rejected, (state, action) => {

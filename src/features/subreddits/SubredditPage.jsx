@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchPosts } from '../../store/redditSlice';
 import { Link } from 'react-router-dom';
+import { Subreddits } from './Subreddits';
 
 export const SubredditPage = () => {
   const { subredditId } = useParams();
@@ -31,5 +32,10 @@ export const SubredditPage = () => {
       </div>
     </Link>
   ));
-  return <div>{renderedPosts}</div>;
+  return (
+    <div>
+      <Subreddits />
+      <div>{renderedPosts}</div>
+    </div>
+  );
 };

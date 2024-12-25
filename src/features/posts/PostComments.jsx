@@ -8,10 +8,13 @@ export const PostComments = () => {
   const dispatch = useDispatch();
 
   const subreddit = useSelector((state) => state.reddit.selectedSubreddit);
+
   const post = useSelector((state) =>
-    state.reddit.posts.bySubreddit[subreddit.url].find(
-      (post) => post.id === postId,
-    ),
+    subreddit.url
+      ? state.reddit.posts.bySubreddit[subreddit.url]?.find(
+          (post) => post.id === postId,
+        )
+      : null,
   );
 
   const comments = useSelector(
@@ -22,9 +25,22 @@ export const PostComments = () => {
 
   const permalink = post.permalink;
   useEffect(() => {
-    dispatch(fetchComments({ permalink, postId }));
-  }, [dispatch, permalink, postId]);
+    if (post) {
+      dispatch(fetchComments({ permalink, postId }));
+    }
+  }, [dispatch, permalink, post, postId]);
 
+  if (!post) {
+    return <div>Post not found.</div>;
+  }
+
+  if (commentsStatus === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (commentsStatus === 'failed') {
+    return <div>Error: {commentsError || 'something went wrong.'}</div>;
+  }
   const renderedComments = comments.map((comment) => (
     <div key={comment.id}>{comment.body}</div>
   ));

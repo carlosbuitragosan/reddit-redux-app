@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   fetchPosts,
   fetchSubreddits,
@@ -9,20 +9,27 @@ import {
 
 export const Subreddits = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const subreddits = useSelector((state) => state.reddit.subreddits.list);
-
+  const subreddit = useSelector((state) => state.reddit.selectedSubreddit);
+  console.log('subreddit: ', subreddit);
   // useEffect(() => {
-  //   dispatch(fetchSubreddits());
-  // }, [dispatch]);
 
-  // const handleSubredditChange = (subreddit) => {
-  //   dispatch(setSelectedSubreddit(subreddit));
-  //   dispatch(fetchPosts(subreddit.url));
-  // };
+  // }, [dispatch, subreddit]);
+
+  const handleSubredditChange = (subreddit) => {
+    dispatch(setSelectedSubreddit(subreddit));
+    dispatch(fetchPosts(subreddit.url));
+    navigate(`/subreddits/${subreddit.id}`);
+  };
 
   const renderedSubreddits = subreddits.map((subreddit) => {
     return (
-      <Link key={subreddit.id} to={`/subreddits/${subreddit.id}`}>
+      <Link
+        onClick={() => handleSubredditChange(subreddit)}
+        key={subreddit.id}
+        to={`/subreddits/${subreddit.id}`}
+      >
         <div>
           <p>{subreddit.display_name}</p>
         </div>

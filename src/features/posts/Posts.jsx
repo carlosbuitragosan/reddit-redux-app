@@ -1,11 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import React, { useMemo, useEffect } from 'react';
 import {
   fetchPosts,
   fetchSubreddits,
   setSelectedSubreddit,
 } from '../../store/redditSlice';
-import { Link } from 'react-router-dom';
+import { Subreddits } from '../subreddits/Subreddits';
+
 export const Posts = () => {
   const dispatch = useDispatch();
 
@@ -13,11 +15,7 @@ export const Posts = () => {
   const subreddits = useSelector((state) => state.reddit.subreddits.list || []);
   const postsStatus = useSelector((state) => state.reddit.posts.status);
   const postsError = useSelector((state) => state.reddit.posts.error);
-
-  const subreddit = useMemo(
-    () => subreddits.find((subreddit) => subreddit.url === '/r/pics/'),
-    [subreddits],
-  );
+  const subreddit = useSelector((state) => state.reddit.selectedSubreddit);
 
   const posts = useSelector((state) =>
     subreddit ? state.reddit.posts.bySubreddit[subreddit.url] || [] : [],
@@ -60,6 +58,7 @@ export const Posts = () => {
 
   return (
     <div>
+      <Subreddits />
       <h1>Reddit Posts</h1>
       <div>{renderedPosts}</div>
     </div>

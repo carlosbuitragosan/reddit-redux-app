@@ -28,7 +28,7 @@ export const Posts = () => {
     if (subreddits.length === 0) {
       dispatch(fetchSubreddits());
     }
-  }, [dispatch, subreddits]);
+  }, [dispatch, subreddits, posts]);
 
   // fetch posts when subreddit is selected
   useEffect(() => {
@@ -47,8 +47,6 @@ export const Posts = () => {
   }
 
   const renderedPosts = posts.map((post) => {
-    console.log('post permalink', post.permalink);
-    console.log('post id', post.id);
     return (
       <Link key={post.id} to={`/posts/${post.id}`}>
         <div>

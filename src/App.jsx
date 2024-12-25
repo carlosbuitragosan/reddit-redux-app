@@ -15,11 +15,13 @@ import './App.css';
 function App() {
   return (
     <Router>
+      <Navbar />
       <div className="App">
         <Routes>
           <Route path="/" element={<Navigate to="/posts" replace />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/posts/:postId" element={<PostComments />} />
+          <Route path="/subreddits/:subredditId" element={<SubredditPage />} />
         </Routes>
       </div>
     </Router>

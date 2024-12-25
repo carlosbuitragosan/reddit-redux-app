@@ -8,9 +8,8 @@ import {
 } from '../../store/redditSlice';
 
 export const Subreddits = () => {
-  return;
-  // const dispatch = useDispatch();
-  // const subreddits = useSelector((state) => state.reddit.subreddits.list);
+  const dispatch = useDispatch();
+  const subreddits = useSelector((state) => state.reddit.subreddits.list);
 
   // useEffect(() => {
   //   dispatch(fetchSubreddits());
@@ -18,26 +17,23 @@ export const Subreddits = () => {
 
   // const handleSubredditChange = (subreddit) => {
   //   dispatch(setSelectedSubreddit(subreddit));
-  //   dispatch(fetchPosts(subreddit));
+  //   dispatch(fetchPosts(subreddit.url));
   // };
 
-  // const renderedSubreddits = subreddits.map((subreddit,) => {
-  //   return (
-  //     <div key={subreddit.id}>
-  //       <Link
-  //         to={`/subreddits/${subreddit.id}`}
-  //         onClick={() => handleSubredditChange(subreddit.url)}
-  //       >
-  //         <button>{subreddit.display_name}</button>
-  //       </Link>
-  //     </div>
-  //   );
-  // });
+  const renderedSubreddits = subreddits.map((subreddit) => {
+    return (
+      <Link key={subreddit.id} to={`/subreddits/${subreddit.id}`}>
+        <div>
+          <p>{subreddit.display_name}</p>
+        </div>
+      </Link>
+    );
+  });
 
-  // return (
-  //   <div>
-  //     <h1>Subreddits</h1>
-  //     <div>{renderedSubreddits}</div>
-  //   </div>
-  // );
+  return (
+    <div>
+      <h1>Subreddits</h1>
+      <div>{renderedSubreddits}</div>
+    </div>
+  );
 };

@@ -20,7 +20,7 @@ const subredditsSlice = createSlice({
   initialState,
   reducers: {
     setCurrentSubreddit(state, action) {
-      state.selectedSubreddit = action.payload;
+      state.currentSubreddit = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -28,21 +28,22 @@ const subredditsSlice = createSlice({
 
       //fetch subreddits
       .addCase(fetchSubreddits.pending, (state) => {
-        state.subreddits.status = 'loading';
+        state.status = 'loading';
       })
       .addCase(fetchSubreddits.fulfilled, (state, action) => {
-        state.subreddits.list = action.payload;
-        state.subreddits.status = 'succeeded';
-        state.subreddits.error = null;
+        state.list = action.payload;
+        state.status = 'succeeded';
+        state.error = null;
       })
       .addCase(fetchSubreddits.rejected, (state, action) => {
-        state.subreddits.status = 'failed';
-        state.subreddits.error = action.error.message;
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });
 
-export const { setSelectedSubreddit } = subredditsSlice.actions;
+export const { setCurrentSubreddit } = subredditsSlice.actions;
+
 export default subredditsSlice.reducer;
 
 export const selectCurrentSubreddit = (state) =>
@@ -52,3 +53,7 @@ export const selectSubredditById = (state, subredditId) =>
   state.subreddits.list.find((subreddit) => subreddit.id === subredditId);
 
 export const selectSubreddits = (state) => state.subreddits.list || [];
+
+export const selectSubredditsStatus = (state) => state.subreddits.status;
+
+export const selectSubredditsError = (state) => state.subreddits.error;

@@ -22,6 +22,7 @@ const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.pending, (state) => {
+        // the state of the slice 'state.status'
         state.status = 'loading';
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
@@ -44,5 +45,10 @@ export const selectPostsByUrl = (state, subreddit) =>
 
 export const selectPostById = (state, subreddit, postId) =>
   subreddit && postId
-    ? state.posts.bySubreddit[subreddit.url]?.find((post) => post.id === postId)
+    ? // the state of the store 'state.posts...'
+      state.posts.bySubreddit[subreddit.url]?.find((post) => post.id === postId)
     : null;
+
+export const selecetPostsStatus = (state) => state.posts.status;
+
+export const selectPostsError = (state) => state.posts.error;

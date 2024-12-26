@@ -22,17 +22,17 @@ const commentsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchComments.pending, (state) => {
-        state.comments.status = 'loading';
+        state.status = 'loading';
       })
       .addCase(fetchComments.fulfilled, (state, action) => {
         const { postId, comments } = action.payload;
-        state.comments.byPostId[postId] = comments;
-        state.comments.status = 'succeeded';
-        state.comments.error = null;
+        state.byPostId[postId] = comments;
+        state.status = 'succeeded';
+        state.error = null;
       })
       .addCase(fetchComments.rejected, (state, action) => {
-        state.comments.status = 'failed';
-        state.comments.error = action.error.message;
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });
@@ -40,4 +40,8 @@ const commentsSlice = createSlice({
 export default commentsSlice.reducer;
 
 export const selectCommentsById = (state, postId) =>
-  state.reddit.comments.byPostId[postId] || [];
+  state.comments.byPostId[postId] || [];
+
+export const selectCommentsStatus = (state) => state.comments.status;
+
+export const selectCommentsError = (state) => state.comments.error;

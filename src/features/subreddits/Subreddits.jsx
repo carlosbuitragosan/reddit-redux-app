@@ -1,57 +1,64 @@
-// import { useDispatch, useSelector } from 'react-redux';
-// import { Link } from 'react-router-dom';
-// import {
-//   fetchPosts,
-//   setSelectedSubreddit,
-//   selectSubreddits,
-// } from '../../store/redditSlice';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchPosts } from '../posts/postsSlice';
+import {
+  fetchSubreddits,
+  selectSubreddits,
+  selectSubredditsStatus,
+  selectSubredditsError,
+  setCurrentSubreddit,
+} from './subredditsSlice';
 
-// export const Subreddits = () => {
-//   const dispatch = useDispatch();
+export const Subreddits = () => {
+  const dispatch = useDispatch();
 
-//   // get the subreddits list from the state
-//   const subreddits = useSelector(selectSubreddits);
+  // get the subreddits list from the state (which is empty at first)
+  const subreddits = useSelector(selectSubreddits);
 
-//   // get the status of the subreddits
-//   const subredditsStatus = useSelector(
-//     (state) => state.reddit.subreddits.status,
-//   );
-//   const subredditsError = useSelector((state) => state.reddit.subreddits.error);
+  // get status and error
+  const subredditsStatus = useSelector(selectSubredditsStatus);
+  const subredditsError = useSelector(selectSubredditsError);
 
-//   // get the selected subreddit from the state
-//   // const subreddit = useSelector((state) => state.reddit.selectedSubreddit);
+  useEffect(() => {
+    // fetch subreddits when list is empty
+    if (subreddits.length === 0) {
+      dispatch(fetchSubreddits());
+    }
+  }, [dispatch, subreddits]);
 
-//   const handleSubredditClick = (subreddit) => {
-//     //set new selected subreddit from the list bellow and based on that fetch posts
-//     dispatch(setSelectedSubreddit(subreddit));
-//     dispatch(fetchPosts(subreddit.url));
-//   };
+  if (subredditsStatus === 'loading') {
+    return <div>Loading...</div>;
+  }
 
-//   if (subredditsStatus === 'loading') {
-//     return <div>Loading...</div>;
-//   }
+  if (subredditsStatus === 'failed') {
+    return <div>Error: {subredditsError || 'something went wrong.'}</div>;
+  }
 
-//   if (subredditsStatus === 'failed') {
-//     return <div>Error: {subredditsError || 'something went wrong.'}</div>;
-//   }
+  const handleSubredditClick = (subreddit) => {
+    //set new current subreddit
+    dispatch(setCurrentSubreddit(subreddit));
+    dispatch(fetchPosts(subreddit.url));
+  };
 
-//   const renderedSubreddits = subreddits.map((subreddit) => {
-//     return (
-//       <Link
-//         to={`/subreddits/${subreddit.id}`}
-//         onClick={() => handleSubredditClick(subreddit)}
-//         key={subreddit.id}
-//       >
-//         <div>
-//           <p>{subreddit.display_name}</p>
-//         </div>
-//       </Link>
-//     );
-//   });
+  const renderedSubreddits = subreddits.map((subreddit) => {
+    return (
+      <Link
+        key={subreddit.id}
+        to={`/subreddit/${subreddit.id}`}
+        onClick={() => handleSubredditClick(subreddit)}
+      >
+        <div>
+          <p>{subreddit.display_name}</p>
+        </div>
+      </Link>
+    );
+  });
 
-//   return (
-//     <div>
-//       <div>{renderedSubreddits}</div>
-//     </div>
-//   );
-// };
+  return (
+    <div>
+      <h2>Topics</h2>
+      <div>{renderedSubreddits}</div>
+    </div>
+  );
+};

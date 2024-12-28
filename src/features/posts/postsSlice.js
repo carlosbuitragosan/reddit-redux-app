@@ -49,6 +49,6 @@ export const selectPostById = (state, subreddit, postId) =>
       state.posts.bySubreddit[subreddit.url]?.find((post) => post.id === postId)
     : null;
 
-export const selecetPostsStatus = (state) => state.posts.status;
+export const selectPostsStatus = (state) => state.posts.status;
 
 export const selectPostsError = (state) => state.posts.error;

@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getSubreddits } from '../../api/api';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   list: [],
@@ -8,41 +7,20 @@ const initialState = {
   error: null,
 };
 
-export const fetchSubreddits = createAsyncThunk(
-  'subreddits/fetchSubreddits',
-  async () => {
-    return await getSubreddits();
-  },
-);
-
 const subredditsSlice = createSlice({
   name: 'subreddits',
   initialState,
   reducers: {
+    setSubreddits(state, action) {
+      state.list = action.payload;
+    },
     setCurrentSubreddit(state, action) {
       state.currentSubreddit = action.payload;
     },
   },
-  extraReducers: (builder) => {
-    builder
-
-      //fetch subreddits
-      .addCase(fetchSubreddits.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchSubreddits.fulfilled, (state, action) => {
-        state.list = action.payload;
-        state.status = 'succeeded';
-        state.error = null;
-      })
-      .addCase(fetchSubreddits.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      });
-  },
 });
 
-export const { setCurrentSubreddit } = subredditsSlice.actions;
+export const { setSubreddits, setCurrentSubreddit } = subredditsSlice.actions;
 
 export default subredditsSlice.reducer;
 

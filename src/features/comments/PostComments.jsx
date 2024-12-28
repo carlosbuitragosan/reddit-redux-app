@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { selectCurrentSubreddit } from '../subreddits/subredditsSlice';
+import { selectPostById } from '../posts/postsSlice';
 import {
   selectCommentsById,
   selectCommentsError,
   selectCommentsStatus,
 } from './commentsSlice';
-import { selectCurrentSubreddit } from '../subreddits/subredditsSlice';
-import { selectPostById, selectPostsByUrl } from '../posts/postsSlice';
 
 export const PostComments = () => {
   const { postId } = useParams();
@@ -21,17 +21,20 @@ export const PostComments = () => {
   const post = useSelector((state) =>
     selectPostById(state, currentSubreddit, postId),
   );
-  if (commentsStatus === 'loading') {
-    return <div>Loading...</div>;
-  }
 
-  if (commentsStatus === 'failed') {
+  console.log('post: ', post);
+
+  if (commentsStatus === 'loading') return <div>Loading...</div>;
+
+  if (commentsStatus === 'failed')
     return <div>Error: {commentsError || 'something went wrong.'}</div>;
-  }
+
+  if (!post) return <div>Post not found.</div>;
 
   const renderedComments = comments.map((comment) => (
     <div key={comment.id}>{comment.body}</div>
   ));
+
   return (
     <div>
       <button onClick={() => navigate(-1)}>Back to Posts</button>

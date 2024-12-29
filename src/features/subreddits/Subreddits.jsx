@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useGetSubredditsQuery } from '../api/apiSlice';
+import './subreddits.css';
 
 export const Subreddits = () => {
   const {
@@ -22,17 +23,12 @@ export const Subreddits = () => {
         to={`/subreddit/${subreddit.url}`}
         state={{ title: subreddit.display_name }}
       >
-        <div>
-          <p>{subreddit.display_name}</p>
+        <div className="subreddit__container">
+          <p className="subreddit__name">{subreddit.display_name}</p>
         </div>
       </Link>
     ));
 
-    return (
-      <div>
-        <h2>Topics</h2>
-        <div>{renderedSubreddits}</div>
-      </div>
-    );
+    return <div className="subreddits__container">{renderedSubreddits}</div>;
   }
 };

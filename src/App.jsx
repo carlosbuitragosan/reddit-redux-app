@@ -4,6 +4,7 @@ import { Navbar } from './app/Navbar';
 import { Subreddits } from './features/subreddits/Subreddits';
 import { Posts } from './features/posts/Posts';
 import './App.css';
+import './components/menuToggle';
 
 function App() {
   return (

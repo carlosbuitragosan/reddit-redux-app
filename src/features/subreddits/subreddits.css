@@ -2,17 +2,32 @@
   margin: 0;
 }
 
+.subreddits__title {
+  margin: 0;
+  color: var(--mainTitle-color);
+}
+
 .subreddits__container {
   position: absolute;
   top: 0;
   left: 0;
   flex-direction: column;
+  width: 75vw;
   transform: translateX(-100%);
-  transition: transform var(--animation);
+  transition:
+    transform var(--animation),
+    opacity var(--animation);
+  overflow-y: auto;
   background: #0d203e;
-  opacity: 0.9;
+  opacity: 0;
   min-height: 100vh;
   display: flex;
-  gap: 0.4rem;
-  padding: 1rem 3rem 0 1rem;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* the class name 'open' is added in Subreddits component */
+.subreddits__container.open {
+  transform: translateX(0);
+  opacity: 0.98;
 }

@@ -60,7 +60,7 @@ export const Posts = () => {
 
           <button onClick={() => handleCommentsClick(post)}>
             {selectedPost?.id === post.id ? 'Hide ' : `${post.num_comments} `}
-            comments
+            {post.num_comments === 1 ? 'comment' : 'comments'}
           </button>
           {selectedPost?.id === post.id && (
             <Comments permalink={post.permalink} />

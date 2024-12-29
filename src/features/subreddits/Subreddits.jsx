@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { useGetSubredditsQuery } from '../api/apiSlice';
 import './subreddits.css';
 
-export const Subreddits = () => {
+// isMenuOpen was passed down in App component as a prop and then based on that the class name 'open' is added and css can handle it.
+export const Subreddits = ({ isMenuOpen }) => {
   const {
     data: subreddits = [],
     isLoading,
@@ -29,6 +30,11 @@ export const Subreddits = () => {
       </Link>
     ));
 
-    return <div className="subreddits__container">{renderedSubreddits}</div>;
+    return (
+      <div className={`subreddits__container ${isMenuOpen ? 'open' : ''}`}>
+        <h2 className="subreddits__title">Topics</h2>
+        {renderedSubreddits}
+      </div>
+    );
   }
 };

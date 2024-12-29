@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Navbar } from './app/Navbar';
 import { Subreddits } from './features/subreddits/Subreddits';
 import { Posts } from './features/posts/Posts';
 import './App.css';
-import './components/menuToggle';
 
 function App() {
+  // tracks whether subreddits container is open or hidden
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // useEffect(() => {
+  //   // Set the initial state once the component has mounted
+  //   setIsMenuOpen(false); // Ensure the menu is hidden initially
+  // }, []);
+
+  //pass the state to Subreddits component
+  const handleMenuToggle = (isChecked) => {
+    setIsMenuOpen(isChecked);
+  };
   return (
     <Router>
-      <Navbar />
+      <Navbar onToggle={handleMenuToggle} />
       <div className="App">
-        <Subreddits />
+        <Subreddits isMenuOpen={isMenuOpen} />
         <Routes>
           <Route
             path="/"

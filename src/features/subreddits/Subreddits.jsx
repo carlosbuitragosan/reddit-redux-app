@@ -4,7 +4,7 @@ import { useGetSubredditsQuery } from '../api/apiSlice';
 import './subreddits.css';
 
 // isMenuOpen was passed down in App component as a prop and then based on that the class name 'open' is added and css can handle it.
-export const Subreddits = ({ isMenuOpen }) => {
+export const Subreddits = ({ onToggle, isMenuOpen }) => {
   const {
     data: subreddits = [],
     isLoading,
@@ -13,6 +13,9 @@ export const Subreddits = ({ isMenuOpen }) => {
     error,
   } = useGetSubredditsQuery();
 
+  const handleSubredditClick = () => {
+    onToggle(false);
+  };
   if (isLoading) {
     return <div>Loading Subreddits...</div>;
   } else if (isError) {
@@ -23,6 +26,7 @@ export const Subreddits = ({ isMenuOpen }) => {
         key={subreddit.id}
         to={`/subreddit/${subreddit.url}`}
         state={{ title: subreddit.display_name }}
+        onClick={handleSubredditClick}
       >
         <div className="subreddit__container">
           <p className="subreddit__name">{subreddit.display_name}</p>

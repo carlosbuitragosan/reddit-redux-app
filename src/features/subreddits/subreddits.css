@@ -17,17 +17,17 @@
   transition:
     transform var(--animation),
     opacity var(--animation);
+  visibility: hidden;
   overflow-y: auto;
   background: #0d203e;
-  opacity: 0;
   min-height: 100vh;
   display: flex;
   gap: 1rem;
-  padding: 1rem;
+  padding: 1rem 0 2rem 1rem;
 }
 
 /* the class name 'open' is added in Subreddits component */
 .subreddits__container.open {
   transform: translateX(0);
-  opacity: 0.98;
+  visibility: visible;
 }

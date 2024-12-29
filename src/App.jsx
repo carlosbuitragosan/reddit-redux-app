@@ -9,20 +9,15 @@ function App() {
   // tracks whether subreddits container is open or hidden
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // useEffect(() => {
-  //   // Set the initial state once the component has mounted
-  //   setIsMenuOpen(false); // Ensure the menu is hidden initially
-  // }, []);
-
   //pass the state to Subreddits component
   const handleMenuToggle = (isChecked) => {
     setIsMenuOpen(isChecked);
   };
   return (
     <Router>
-      <Navbar onToggle={handleMenuToggle} />
+      <Navbar onToggle={handleMenuToggle} isMenuOpen={isMenuOpen} />
       <div className="App">
-        <Subreddits isMenuOpen={isMenuOpen} />
+        <Subreddits isMenuOpen={isMenuOpen} onToggle={handleMenuToggle} />
         <Routes>
           <Route
             path="/"

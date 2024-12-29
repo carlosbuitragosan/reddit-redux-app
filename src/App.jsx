@@ -1,9 +1,8 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Navbar } from './app/Navbar';
-import { HomePosts } from './features/posts/HomePosts';
-import { SubredditPosts } from './features/subreddits/SubredditPosts';
-import { PostComments } from './features/comments/PostComments';
+import { Subreddits } from './features/subreddits/Subreddits';
+import { Posts } from './features/posts/Posts';
 import './App.css';
 
 function App() {
@@ -11,10 +10,13 @@ function App() {
     <Router>
       <Navbar />
       <div className="App">
+        <Subreddits />
         <Routes>
-          <Route path="/" element={<HomePosts />} />
-          <Route path="/post/:postId" element={<PostComments />} />
-          <Route path="/subreddit/:subredditId" element={<SubredditPosts />} />
+          <Route
+            path="/"
+            element={<Posts defaultSubredditUrl="defaultUrl" />}
+          />
+          <Route path="/subreddit/*" element={<Posts />} />
         </Routes>
       </div>
     </Router>

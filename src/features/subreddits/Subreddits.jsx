@@ -12,19 +12,22 @@ export const Subreddits = () => {
   } = useGetSubredditsQuery();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Loading Subreddits...</div>;
   } else if (isError) {
     return <div>Error: {error.message || 'something went wrong.'}</div>;
   } else if (isSuccess) {
-    const renderedSubreddits = subreddits.map((subreddit) => {
-      return (
-        <Link key={subreddit.id} to={`/subreddit/${subreddit.id}`}>
-          <div>
-            <p>{subreddit.display_name}</p>
-          </div>
-        </Link>
-      );
-    });
+    const renderedSubreddits = subreddits.map((subreddit) => (
+      <Link
+        key={subreddit.id}
+        to={`/subreddit/${subreddit.url}`}
+        state={{ title: subreddit.display_name }}
+      >
+        <div>
+          <p>{subreddit.display_name}</p>
+        </div>
+      </Link>
+    ));
+
     return (
       <div>
         <h2>Topics</h2>

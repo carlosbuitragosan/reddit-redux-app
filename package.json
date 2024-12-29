@@ -2,6 +2,7 @@
   "name": "reddit_app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://www.reddit.com",
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
     "cra-template": "1.2.0",

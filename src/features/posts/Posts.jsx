@@ -1,32 +1,79 @@
-import { Link } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
+import { useGetSubredditPostsQuery } from '../api/apiSlice';
+import { Comments } from '../comments/Comments';
+import { useState } from 'react';
 
-export const Posts = ({ posts }) => {
-  const orderedPosts = posts
-    .slice()
-    .sort((a, b) => b.created_utc - a.created_utc);
+export const Posts = () => {
+  const defaultUrl = '/r/pics/';
+  const { state } = useLocation();
+  // passing :subredditUrl in Route isn't working!
+  const params = useParams();
+  const subredditUrl = params['*'];
 
-  // Since the API slice is just caching the exact array returned from the server, there's no specific sorting happening - whatever order the server sent back is what we've got.
-  // We can't just call posts.sort() directly, because Array.sort() mutates the existing array, so we'll need to make a copy of it first. To avoid re-sorting on every rerender, we can do the sorting in a useMemo() hook. We'll also want to give posts a default empty array in case it's undefined, so that we always have an array to sort on.
+  // on page load SubredditUrl is undefined which is great because we can load pics subreddit and thereafter each clicked subreddit!
+  const activeUrl = subredditUrl || defaultUrl;
+  const {
+    data: posts = [],
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetSubredditPostsQuery(activeUrl);
 
-  // const sortedPosts = useMemo(() => {
-  //   const sortedPosts = posts.slice()
-  //   // Sort posts in descending chronological order
-  //   sortedPosts.sort((a, b) => b.date.localeCompare(a.date))
-  //   return sortedPosts
-  // }, [posts])
+  const [selectedPost, setSelectedPost] = useState(null);
 
-  // posts.map((post) => console.log('post from Posts component: ', post));
-  const renderedPosts = orderedPosts.map((post) => (
-    <Link key={post.id} to={`/post/${post.id}`}>
+  const handleCommentsClick = (post) => {
+    setSelectedPost((prevPost) => (prevPost?.id === post.id ? null : post));
+  };
+
+  if (isLoading) {
+    return <div>Loading Posts...</div>;
+  } else if (isError) {
+    return <div>Error: {error.message || 'something went wrong.'}</div>;
+  } else if (isSuccess) {
+    const orderedPosts = posts
+      .slice()
+      .sort((a, b) => b.created_utc - a.created_utc);
+
+    const renderedPosts = orderedPosts.map((post) => {
+      const postDate = new Date(post.created_utc * 1000).toLocaleDateString();
+
+      return (
+        <div key={post.id}>
+          <h3>{post.title}</h3>
+
+          {post.thumbnail && post.thumbnail !== 'self' && (
+            <img alt="" src={post.url || post.thumbnail} loading="lazy" />
+          )}
+
+          {post.is_video && (
+            <video controls>
+              <source
+                src={post.media?.reddit_video?.fallback_url}
+                type="video/mp4"
+              />
+            </video>
+          )}
+          <p>Posted by {post.author}</p>
+
+          <p>{postDate}</p>
+
+          <button onClick={() => handleCommentsClick(post)}>
+            {selectedPost?.id === post.id ? 'Hide ' : `${post.num_comments} `}
+            comments
+          </button>
+          {selectedPost?.id === post.id && (
+            <Comments permalink={post.permalink} />
+          )}
+        </div>
+      );
+    });
+
+    return (
       <div>
-        <h3>{post.title}</h3>
-        {post.thumbnail && post.thumbnail !== 'self' && (
-          <img alt={post.title} src={post.thumbnail}></img>
-        )}
-        <p>{post.num_comments} comments</p>
+        <h2>{state?.title.toUpperCase() || 'PICS'}</h2>
+        {renderedPosts}
       </div>
-    </Link>
-  ));
-
-  return <div>{renderedPosts}</div>;
+    );
+  }
 };

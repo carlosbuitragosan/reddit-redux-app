@@ -1,33 +1,33 @@
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { selectCurrentSubreddit } from '../subreddits/subredditsSlice';
-import { selectPostById } from '../posts/postsSlice';
+
 import {
-  selectCommentsById,
-  selectCommentsError,
-  selectCommentsStatus,
-} from './commentsSlice';
+  useGetPostCommentsQuery,
+  useGetSubredditPostsQuery,
+} from '../api/apiSlice';
 
 export const PostComments = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
 
-  const comments = useSelector((state) => selectCommentsById(state, postId));
-  const commentsStatus = useSelector(selectCommentsStatus);
-  const commentsError = useSelector(selectCommentsError);
-
   const currentSubreddit = useSelector(selectCurrentSubreddit);
 
-  const post = useSelector((state) =>
-    selectPostById(state, currentSubreddit, postId),
-  );
+  const { data: posts = [] } = useGetSubredditPostsQuery(currentSubreddit.url);
+  const post = posts.find((post) => post.id === postId);
 
-  console.log('post: ', post);
+  const {
+    data: comments = [],
+    isLoading,
+    isSucceeded,
+    isError,
+    error,
+  } = useGetPostCommentsQuery(post.permalink);
 
-  if (commentsStatus === 'loading') return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
 
-  if (commentsStatus === 'failed')
-    return <div>Error: {commentsError || 'something went wrong.'}</div>;
+  if (isError)
+    return <div>Error: {error.messge || 'something went wrong.'}</div>;
 
   if (!post) return <div>Post not found.</div>;
 

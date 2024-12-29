@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-} from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Navbar } from './app/Navbar';
 import { HomePosts } from './features/posts/HomePosts';
 import { SubredditPosts } from './features/subreddits/SubredditPosts';
@@ -18,9 +13,8 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<HomePosts />} />
-          <Route path="/subreddit/:subredditId" element={<SubredditPosts />} />
           <Route path="/post/:postId" element={<PostComments />} />
-          {/* <Route path="/subreddits/:subredditId" element={<SubredditPage />} /> */}
+          <Route path="/subreddit/:subredditId" element={<SubredditPosts />} />
         </Routes>
       </div>
     </Router>

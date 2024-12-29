@@ -13,12 +13,21 @@ export const apiSlice = createApi({
         response.data.children.map((subreddit) => subreddit.data),
     }),
     //fetch all posts by subreddit
-    getPosts: builder.query({
-      query: (subreddit) => `${subreddit}.json`,
+    getSubredditPosts: builder.query({
+      query: (subredditUrl) => `${subredditUrl}.json`,
       transformResponse: (response) =>
         response.data.children.map((post) => post.data),
+    }),
+    getPostComments: builder.query({
+      query: (permalink) => `${permalink}.json`,
+      transformResponse: (response) =>
+        response[1].data.children.map((comment) => comment.data),
     }),
   }),
 });
 
-export const { useGetSubredditsQuery, useGetPostsQuery } = apiSlice;
+export const {
+  useGetSubredditsQuery,
+  useGetSubredditPostsQuery,
+  useGetPostCommentsQuery,
+} = apiSlice;

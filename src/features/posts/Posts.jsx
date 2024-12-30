@@ -3,11 +3,11 @@ import { useParams, useLocation } from 'react-router-dom';
 import { useGetSubredditPostsQuery } from '../api/apiSlice';
 import { Comments } from '../comments/Comments';
 import './posts.css';
-
 export const Posts = () => {
   const defaultUrl = '/r/pics/';
   const { state } = useLocation();
-  // passing :subredditUrl in Route isn't working!
+
+  // passing :subredditUrl in Route isn't working so using this method instead.
   const params = useParams();
   const subredditUrl = params['*'];
 
@@ -21,10 +21,15 @@ export const Posts = () => {
     error,
   } = useGetSubredditPostsQuery(activeUrl);
 
-  const [selectedPost, setSelectedPost] = useState(null);
+  // selectedPost is used to render comments based on conditional. posts are stored so comments open will remain open.
+  const [selectedPosts, setSelectedPosts] = useState([]);
 
   const handleCommentsClick = (post) => {
-    setSelectedPost((prevPost) => (prevPost?.id === post.id ? null : post));
+    setSelectedPosts((prevSelected) =>
+      prevSelected.includes(post.id)
+        ? prevSelected.filter((id) => id !== post.id)
+        : [...prevSelected, post.id],
+    );
   };
 
   if (isLoading) {
@@ -72,14 +77,14 @@ export const Posts = () => {
                 className="post__button"
                 disabled={post.num_comments === 0}
               >
-                {selectedPost?.id === post.id
+                {selectedPosts?.includes(post.id)
                   ? 'Hide '
                   : `${post.num_comments} `}
                 {post.num_comments === 1 ? 'comment' : 'comments'}
               </button>
             </div>
           </div>
-          {selectedPost?.id === post.id && (
+          {selectedPosts?.includes(post.id) && (
             <Comments permalink={post.permalink} />
           )}
         </div>

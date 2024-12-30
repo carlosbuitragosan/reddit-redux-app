@@ -1,9 +1,11 @@
 /* GLOBALS */
 :root {
   --mainTitle-color: #c62300;
-  --background-color: #213555;
+  --background-color: #222831;
   --font-color: #f5efe7;
-  --container-color: #0d203e;
+  --container-color: #31363f;
+  --button-color: #eeeeee;
+  --author-color: #f97300;
 }
 body {
   background: var(--background-color);
@@ -17,6 +19,7 @@ a {
 
 img {
   max-width: 100%;
+  height: auto;
   display: block;
 }
 

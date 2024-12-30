@@ -1,6 +1,6 @@
 import { useGetPostCommentsQuery } from '../api/apiSlice';
+import { TimeAgo } from '../../components/TimeAgo';
 import './comments.css';
-
 export const Comments = ({ permalink }) => {
   const {
     data: comments = [],
@@ -17,18 +17,23 @@ export const Comments = ({ permalink }) => {
   } else if (isError) {
     return <div>Error: {error.messge || 'something went wrong.'}</div>;
   } else if (isSuccess) {
-    comments.map((comment) => console.log('comment: ', comment));
+    const orderedComments = comments
+      .slice()
+      .sort((a, b) => b.created_utc - a.created_utc);
 
-    const renderedComments = comments.map((comment) => {
-      const postDate = new Date(
-        comment.created_utc * 1000,
-      ).toLocaleDateString();
+    const renderedComments = orderedComments.map((comment) => {
+      // const postDate = new Date(
+      //   comment.created_utc * 1000,
+      // ).toLocaleDateString();
 
       return (
         <div key={comment.id} className="comment__container">
           <div className="comment__info">
             <p className="comment__author">By {comment.author} •</p>
-            <p className="comment__date">{postDate}</p>
+            <TimeAgo
+              timeStamp={comment.created_utc}
+              className="comment__date"
+            />
           </div>
           <p className="comment__body">{comment.body}</p>
         </div>

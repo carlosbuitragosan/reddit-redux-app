@@ -2,9 +2,13 @@ import { useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { useGetSubredditPostsQuery } from '../api/apiSlice';
 import { Comments } from '../comments/Comments';
+import { TimeAgo } from '../../components/TimeAgo';
 import './posts.css';
+
 export const Posts = () => {
   const defaultUrl = '/r/pics/';
+
+  // state is passed from Subreddits component via <Link> and includes the subreddit title
   const { state } = useLocation();
 
   // passing :subredditUrl in Route isn't working so using this method instead.
@@ -26,6 +30,7 @@ export const Posts = () => {
 
   const handleCommentsClick = (post) => {
     setSelectedPosts((prevSelected) =>
+      // if post is already in the list, remove it with .filter() (hide comments). If not, added to the list (open and keep others open too).
       prevSelected.includes(post.id)
         ? prevSelected.filter((id) => id !== post.id)
         : [...prevSelected, post.id],
@@ -33,17 +38,17 @@ export const Posts = () => {
   };
 
   if (isLoading) {
-    return <div>Loading Posts...</div>;
+    return <div>Loading...</div>;
   } else if (isError) {
     return <div>Error: {error.message || 'something went wrong.'}</div>;
   } else if (isSuccess) {
+    //sort posts first.
     const orderedPosts = posts
       .slice()
       .sort((a, b) => b.created_utc - a.created_utc);
 
     const renderedPosts = orderedPosts.map((post) => {
-      const postDate = new Date(post.created_utc * 1000).toLocaleDateString();
-
+      console.log('posts from Post component: ', post);
       return (
         <div key={post.id} className="post__container">
           <h3 className="post__title">{post.title}</h3>
@@ -51,7 +56,11 @@ export const Posts = () => {
           {post.thumbnail && post.thumbnail !== 'self' && (
             <img
               alt=""
-              src={post.url || post.thumbnail}
+              src={
+                post.url && post.url.includes('reddit.com')
+                  ? post.thumbnail
+                  : post.url
+              }
               loading="lazy"
               className="post__media"
             />
@@ -67,9 +76,9 @@ export const Posts = () => {
           )}
           <div className="post__info">
             <div className="author-date">
-              <p>By {post.author}</p>
+              <p className="post__author">By {post.author}</p>
 
-              <p>{postDate}</p>
+              <TimeAgo timeStamp={post.created_utc} />
             </div>
             <div>
               <button

@@ -7,18 +7,15 @@ import './subreddits.css';
 export const Subreddits = ({ onToggle, isMenuOpen }) => {
   const {
     data: subreddits = [],
-    isLoading,
     isSuccess,
     isError,
     error,
   } = useGetSubredditsQuery();
 
+  //sets isMenuOpen to false
   const handleSubredditClick = () => {
     onToggle(false);
   };
-  // if (isLoading) {
-  //   return <div>Loading Subreddits...</div>;
-  // }
 
   if (isError) {
     return <div>Error: {error.message || 'something went wrong.'}</div>;

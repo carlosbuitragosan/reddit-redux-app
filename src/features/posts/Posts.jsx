@@ -25,12 +25,12 @@ export const Posts = () => {
     error,
   } = useGetSubredditPostsQuery(activeUrl);
 
-  // selectedPost is used to render comments based on conditional. posts are stored so comments open will remain open.
+  // selectedPost is used to render comments based on conditional. posts are stored so open comments  will remain open.
   const [selectedPosts, setSelectedPosts] = useState([]);
 
   const handleCommentsClick = (post) => {
     setSelectedPosts((prevSelected) =>
-      // if post is already in the list, remove it with .filter() (hide comments). If not, added to the list (open and keep others open too).
+      // if post is already in the list, remove it with .filter() (hide comments). If not, add it to the list (show comments and keep others open too).
       prevSelected.includes(post.id)
         ? prevSelected.filter((id) => id !== post.id)
         : [...prevSelected, post.id],
@@ -38,7 +38,7 @@ export const Posts = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="posts">Loading...</div>;
   } else if (isError) {
     return <div>Error: {error.message || 'something went wrong.'}</div>;
   } else if (isSuccess) {

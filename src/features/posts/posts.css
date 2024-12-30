@@ -50,6 +50,8 @@
   cursor: pointer;
 }
 
+/* SCREENS > 800PX */
+
 @media only screen and (min-width: 800px) {
   .posts {
     width: 75vw;
@@ -66,5 +68,19 @@
 
   .post__info {
     padding: 0 0 1rem 0;
+  }
+
+  .post__media {
+    width: 80%;
+    margin: auto;
+  }
+}
+
+/* SCREENS > 1200PX */
+
+@media only screen and (min-width: 1200px) {
+  .posts {
+    width: 50%;
+    padding-top: 3rem;
   }
 }

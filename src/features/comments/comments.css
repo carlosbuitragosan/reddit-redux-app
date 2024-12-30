@@ -39,4 +39,5 @@
 
 .comment__body {
   line-height: 1.3rem;
+  word-break: break-word;
 }

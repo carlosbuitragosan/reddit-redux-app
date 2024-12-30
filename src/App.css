@@ -36,3 +36,12 @@ video {
   margin: 0;
   padding: 0;
 }
+
+/* APP CONTAINER  */
+
+/* @media only screen and (min-width: 1200px) {
+  .App {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+} */

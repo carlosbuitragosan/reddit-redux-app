@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/redit-redux-app/static/css/main.9af9220b.css",
+    "main.js": "/redit-redux-app/static/js/main.c6fb30ef.js",
+    "index.html": "/redit-redux-app/index.html",
+    "main.9af9220b.css.map": "/redit-redux-app/static/css/main.9af9220b.css.map",
+    "main.c6fb30ef.js.map": "/redit-redux-app/static/js/main.c6fb30ef.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9af9220b.css",
+    "static/js/main.c6fb30ef.js"
+  ]
+}

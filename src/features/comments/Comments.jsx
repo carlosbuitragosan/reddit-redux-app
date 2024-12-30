@@ -29,7 +29,7 @@ export const Comments = ({ permalink }) => {
       return (
         <div key={comment.id} className="comment__container">
           <div className="comment__info">
-            <p className="comment__author">By {comment.author} •</p>
+            <p className="comment__author">{comment.author}&nbsp; • &nbsp;</p>
             <TimeAgo
               timeStamp={comment.created_utc}
               className="comment__date"

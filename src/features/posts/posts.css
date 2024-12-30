@@ -1,3 +1,5 @@
+/* MOBILE VIEW */
+
 .posts__container {
   display: flex;
   flex-direction: column;
@@ -46,4 +48,23 @@
   padding: 0.6rem 1rem;
   border-radius: 0.4rem;
   cursor: pointer;
+}
+
+@media only screen and (min-width: 800px) {
+  .posts {
+    width: 75vw;
+    margin: auto;
+  }
+
+  .posts__title {
+    padding-left: 0;
+  }
+
+  .post__title {
+    padding: 0;
+  }
+
+  .post__info {
+    padding: 0 0 1rem 0;
+  }
 }

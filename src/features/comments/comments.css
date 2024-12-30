@@ -3,7 +3,21 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: var(--container-color);
+  background: linear-gradient(
+    to top,
+    #31363f,
+    #31363f,
+    #31363f,
+    #31363f,
+    #31363f,
+    #30353e,
+    #2e333c,
+    #2d323b,
+    #2a2f38,
+    #272d36,
+    #252a33,
+    #222831
+  );
 }
 
 .comment__container {
@@ -21,4 +35,8 @@
 
 .comment__author {
   color: var(--author-color);
+}
+
+.comment__body {
+  line-height: 1.3rem;
 }

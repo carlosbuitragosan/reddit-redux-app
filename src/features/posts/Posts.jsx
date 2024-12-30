@@ -76,7 +76,7 @@ export const Posts = () => {
           )}
           <div className="post__info">
             <div className="author-date">
-              <p className="post__author">By {post.author}</p>
+              <p className="post__author">{post.author}</p>
 
               <TimeAgo timeStamp={post.created_utc} />
             </div>

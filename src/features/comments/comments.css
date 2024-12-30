@@ -1,8 +1,9 @@
 .comments__container {
-  padding: 0 1rem;
+  padding: 1rem 1rem 2rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  background: var(--container-color);
 }
 
 .comment__container {

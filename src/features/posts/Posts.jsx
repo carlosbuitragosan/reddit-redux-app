@@ -67,7 +67,7 @@ export const Posts = () => {
           )}
 
           {post.is_video && (
-            <video controls className="post__media">
+            <video controls className="post__media" loading="lazy">
               <source
                 src={post.media?.reddit_video?.fallback_url}
                 type="video/mp4"

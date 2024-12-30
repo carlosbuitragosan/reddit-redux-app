@@ -39,7 +39,6 @@ export const Subreddits = ({ onToggle, isMenuOpen }) => {
 
     return (
       <div className={`subreddits__container ${isMenuOpen ? 'open' : ''}`}>
-        <h2 className="subreddits__title">Topics</h2>
         {renderedSubreddits}
       </div>
     );

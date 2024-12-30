@@ -1,0 +1,45 @@
+.posts__container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.posts__title {
+  padding: 0 0 1rem 1rem;
+}
+
+.post__container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+  background-color: #122c55;
+}
+
+.post__title {
+  padding: 0 1rem;
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+.post__info {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+
+.author-date {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-weight: 300;
+}
+
+.post__button {
+  all: unset;
+  background: var(--container-color);
+  color: var(--font-color);
+  padding: 0.6rem 1rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}

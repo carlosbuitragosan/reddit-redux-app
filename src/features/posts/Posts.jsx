@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { useGetSubredditPostsQuery } from '../api/apiSlice';
 import { Comments } from '../comments/Comments';
-import { useState } from 'react';
+import './posts.css';
 
 export const Posts = () => {
   const defaultUrl = '/r/pics/';
@@ -39,29 +40,45 @@ export const Posts = () => {
       const postDate = new Date(post.created_utc * 1000).toLocaleDateString();
 
       return (
-        <div key={post.id}>
-          <h3>{post.title}</h3>
+        <div key={post.id} className="post__container">
+          <h3 className="post__title">{post.title}</h3>
 
           {post.thumbnail && post.thumbnail !== 'self' && (
-            <img alt="" src={post.url || post.thumbnail} loading="lazy" />
+            <img
+              alt=""
+              src={post.url || post.thumbnail}
+              loading="lazy"
+              className="post__media"
+            />
           )}
 
           {post.is_video && (
-            <video controls>
+            <video controls className="post__media">
               <source
                 src={post.media?.reddit_video?.fallback_url}
                 type="video/mp4"
               />
             </video>
           )}
-          <p>Posted by {post.author}</p>
+          <div className="post__info">
+            <div className="author-date">
+              <p>By {post.author}</p>
 
-          <p>{postDate}</p>
-
-          <button onClick={() => handleCommentsClick(post)}>
-            {selectedPost?.id === post.id ? 'Hide ' : `${post.num_comments} `}
-            {post.num_comments === 1 ? 'comment' : 'comments'}
-          </button>
+              <p>{postDate}</p>
+            </div>
+            <div>
+              <button
+                onClick={() => handleCommentsClick(post)}
+                className="post__button"
+                disabled={post.num_comments === 0}
+              >
+                {selectedPost?.id === post.id
+                  ? 'Hide '
+                  : `${post.num_comments} `}
+                {post.num_comments === 1 ? 'comment' : 'comments'}
+              </button>
+            </div>
+          </div>
           {selectedPost?.id === post.id && (
             <Comments permalink={post.permalink} />
           )}
@@ -70,9 +87,9 @@ export const Posts = () => {
     });
 
     return (
-      <div>
-        <h2>{state?.title.toUpperCase() || 'PICS'}</h2>
-        {renderedPosts}
+      <div className="posts">
+        <h2 className="posts__title">{state?.title.toUpperCase() || 'PICS'}</h2>
+        <div className="posts__container">{renderedPosts}</div>
       </div>
     );
   }

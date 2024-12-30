@@ -3,14 +3,11 @@
   --mainTitle-color: #c62300;
   --background-color: #213555;
   --font-color: #f5efe7;
-  --container-color:    
-;
+  --container-color: #0d203e;
 }
 body {
   background: var(--background-color);
   color: var(--font-color);
-  margin: 0;
-  padding: 0;
 }
 
 a {
@@ -33,4 +30,6 @@ video {
 *::before,
 *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }

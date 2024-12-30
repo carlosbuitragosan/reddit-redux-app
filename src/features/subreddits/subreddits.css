@@ -19,7 +19,7 @@
     opacity var(--animation);
   visibility: hidden;
   overflow-y: auto;
-  background: #0d203e;
+  background: var(--container-color);
   min-height: 100vh;
   display: flex;
   gap: 1rem;

@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/reddit-redux-app/static/css/main.9af9220b.css",
-    "main.js": "/reddit-redux-app/static/js/main.c6fb30ef.js",
+    "main.css": "/reddit-redux-app/static/css/main.d7f9970f.css",
+    "main.js": "/reddit-redux-app/static/js/main.06b7d782.js",
     "index.html": "/reddit-redux-app/index.html",
-    "main.9af9220b.css.map": "/reddit-redux-app/static/css/main.9af9220b.css.map",
-    "main.c6fb30ef.js.map": "/reddit-redux-app/static/js/main.c6fb30ef.js.map"
+    "main.d7f9970f.css.map": "/reddit-redux-app/static/css/main.d7f9970f.css.map",
+    "main.06b7d782.js.map": "/reddit-redux-app/static/js/main.06b7d782.js.map"
   },
   "entrypoints": [
-    "static/css/main.9af9220b.css",
-    "static/js/main.c6fb30ef.js"
+    "static/css/main.d7f9970f.css",
+    "static/js/main.06b7d782.js"
   ]
 }

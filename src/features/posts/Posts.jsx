@@ -4,6 +4,7 @@ import { useGetSubredditPostsQuery } from '../api/apiSlice';
 import { TimeAgo } from '../../components/TimeAgo';
 import { Comments } from '../comments/Comments';
 import './posts.css';
+import { PostSkeleton } from '../../components/PostSkeleton';
 
 export const Posts = () => {
   const { subredditUrl } = useParams();
@@ -11,9 +12,9 @@ export const Posts = () => {
   // state is passed from Subreddits component via <Link> and includes the subreddit title
   const { state } = useLocation();
 
-  console.log('subredditUrl as passed from useParams: ', subredditUrl);
   const {
     data: posts = [],
+    isFetching,
     isLoading,
     isSuccess,
     isError,
@@ -32,8 +33,17 @@ export const Posts = () => {
     );
   };
 
-  if (isLoading) {
-    return <div className="posts">Loading...</div>;
+  if (isLoading || isFetching) {
+    return (
+      <div className="posts">
+        <h2 className="posts__title">Loading...</h2>
+        <div className="posts__container">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <PostSkeleton key={index} />
+          ))}
+        </div>
+      </div>
+    );
   } else if (isError) {
     return <div>Error: {error.message || 'something went wrong.'}</div>;
   } else if (isSuccess) {

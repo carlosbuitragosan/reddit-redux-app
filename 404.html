@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>404 Not Found</title>
     <script>
-      // This script will redirect all 404 errors to index.html, letting React Router take over
-      window.location.replace(
-        window.location.origin + window.location.pathname + '/index.html',
-      );
+      // Check if the URL is not already index.html
+      if (!window.location.pathname.includes('/index.html')) {
+        // Redirect to index.html, letting React Router take over
+        window.location.replace(
+          window.location.origin + window.location.pathname + '/index.html',
+        );
+      }
     </script>
   </head>
   <body>
-    <h3>Redirecting...</h3>
+    <h1>Page not found. Redirecting...</h1>
   </body>
 </html>

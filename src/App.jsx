@@ -29,6 +29,8 @@ function App() {
           {/* useParams will only capture what's after r/ so even though the url
           is e.g.: /r/pics the result will be pics */}
           <Route path="/r/:subredditUrl" element={<Posts />} />
+          {/* this route may fix error when published app is refreshed. */}
+          <Route path="*" element={<Navigate to="/r/pics/" />} />
         </Routes>
       </div>
     </Router>

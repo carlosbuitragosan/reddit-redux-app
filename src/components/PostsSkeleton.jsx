@@ -1,7 +1,7 @@
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-export const PostSkeleton = () => (
+const Post = () => (
   <div className="post__container">
     <Skeleton
       height={20}
@@ -52,3 +52,16 @@ export const PostSkeleton = () => (
     />
   </div>
 );
+
+export const PostsSkeleton = () => {
+  return (
+    <div className="posts">
+      <h2 className="posts__title">Loading...</h2>
+      <div className="posts__container">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <Post key={index} />
+        ))}
+      </div>
+    </div>
+  );
+};

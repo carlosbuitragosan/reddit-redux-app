@@ -1,10 +1,13 @@
 import { useGetPostCommentsQuery } from '../api/apiSlice';
 import { TimeAgo } from '../../components/TimeAgo';
 import './comments.css';
+import { CommentsSkeleton } from '../../components/CommentsSkeleton';
+
 export const Comments = ({ permalink }) => {
   const {
     data: comments = [],
     isLoading,
+    isFetching,
     isSuccess,
     isError,
     error,
@@ -12,10 +15,14 @@ export const Comments = ({ permalink }) => {
 
   if (!comments) return <div>Comments not found.</div>;
 
-  if (isLoading) {
-    return <div className="comments__container">Loading...</div>;
+  if (isLoading || isFetching) {
+    return <CommentsSkeleton />;
   } else if (isError) {
-    return <div>Error: {error.messge || 'something went wrong.'}</div>;
+    return (
+      <div className="comment__container">
+        Error: {error.messge || 'something went wrong.'}
+      </div>
+    );
   } else if (isSuccess) {
     const orderedComments = comments
       .slice()

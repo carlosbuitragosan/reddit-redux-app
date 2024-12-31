@@ -7,9 +7,12 @@
   --burger-height: calc(var(--bar-height) * 3 + var(--bar-gap) * 2);
 }
 
+.header {
+  display: flex;
+  justify-content: center;
+}
 .navbar__title {
   color: var(--mainTitle-color);
-  text-align: center;
   margin: 0;
   padding: 1rem 0;
   font-size: 2rem;

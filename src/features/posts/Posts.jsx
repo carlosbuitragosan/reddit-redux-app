@@ -1,29 +1,24 @@
 import { useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { useGetSubredditPostsQuery } from '../api/apiSlice';
-import { Comments } from '../comments/Comments';
 import { TimeAgo } from '../../components/TimeAgo';
+import { Comments } from '../comments/Comments';
 import './posts.css';
 
 export const Posts = () => {
-  const defaultUrl = '/r/pics/';
-
+  const { subredditUrl } = useParams();
+  const url = `/r/${subredditUrl}/`;
   // state is passed from Subreddits component via <Link> and includes the subreddit title
   const { state } = useLocation();
 
-  // passing :subredditUrl in Route isn't working so using this method instead.
-  const params = useParams();
-  const subredditUrl = params['*'];
-
-  // on page load SubredditUrl is undefined which is great because we can load pics subreddit and thereafter each clicked subreddit!
-  const activeUrl = subredditUrl || defaultUrl;
+  console.log('subredditUrl as passed from useParams: ', subredditUrl);
   const {
     data: posts = [],
     isLoading,
     isSuccess,
     isError,
     error,
-  } = useGetSubredditPostsQuery(activeUrl);
+  } = useGetSubredditPostsQuery(url);
 
   // selectedPost is used to render comments based on conditional. posts are stored so open comments  will remain open.
   const [selectedPosts, setSelectedPosts] = useState([]);
@@ -48,7 +43,6 @@ export const Posts = () => {
       .sort((a, b) => b.created_utc - a.created_utc);
 
     const renderedPosts = orderedPosts.map((post) => {
-      console.log('posts from Post component: ', post);
       return (
         <div key={post.id} className="post__container">
           <h3 className="post__title">{post.title}</h3>
@@ -63,6 +57,8 @@ export const Posts = () => {
               }
               loading="lazy"
               className="post__media"
+              // hide the img on error
+              onError={(e) => (e.target.display = 'none')}
             />
           )}
 
@@ -102,7 +98,9 @@ export const Posts = () => {
 
     return (
       <div className="posts">
-        <h2 className="posts__title">{state?.title.toUpperCase() || 'PICS'}</h2>
+        <h2 className="posts__title">
+          {state?.title?.toUpperCase() || 'PICS'}
+        </h2>
         <div className="posts__container">{renderedPosts}</div>
       </div>
     );

@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import React, { useState } from 'react';
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from 'react-router-dom';
 import { Navbar } from './app/Navbar';
 import { Subreddits } from './features/subreddits/Subreddits';
 import { Posts } from './features/posts/Posts';
@@ -13,17 +18,17 @@ function App() {
   const handleMenuToggle = (isChecked) => {
     setIsMenuOpen(isChecked);
   };
+
   return (
-    <Router>
+    <Router basename="/reddit-redux-app">
       <Navbar onToggle={handleMenuToggle} isMenuOpen={isMenuOpen} />
+      <Subreddits onToggle={handleMenuToggle} isMenuOpen={isMenuOpen} />
       <div className="App">
-        <Subreddits isMenuOpen={isMenuOpen} onToggle={handleMenuToggle} />
         <Routes>
-          <Route
-            path="/"
-            element={<Posts defaultSubredditUrl="defaultUrl" />}
-          />
-          <Route path="/subreddit/*" element={<Posts />} />
+          <Route path="/" element={<Navigate to="/r/pics/" replace />} />
+          {/* useParams will only capture what's after r/ so even though the url
+          is e.g.: /r/pics the result will be pics */}
+          <Route path="/r/:subredditUrl" element={<Posts />} />
         </Routes>
       </div>
     </Router>

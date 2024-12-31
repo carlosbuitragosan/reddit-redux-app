@@ -23,7 +23,7 @@ export const Subreddits = ({ onToggle, isMenuOpen }) => {
     const renderedSubreddits = subreddits.map((subreddit) => (
       <Link
         key={subreddit.id}
-        to={`/subreddit/${subreddit.url}`}
+        to={`${subreddit.url}`}
         // pass the state to the Posts component
         state={{ title: subreddit.display_name }}
         onClick={handleSubredditClick}

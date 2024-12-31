@@ -9,7 +9,7 @@ export const Navbar = ({ onToggle, isMenuOpen }) => {
   };
 
   return (
-    <header>
+    <header className="header">
       <nav>
         <Link to="/">
           <h1 className="navbar__title">REDDIT</h1>

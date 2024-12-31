@@ -1,8 +1,8 @@
 {
   "name": "reddit_app",
   "version": "0.1.0",
-  "homepage": "",
   "private": true,
+  "homepage": "https://carlosbuitragosan.github.io/reddit-redux-app/",
   "proxy": "https://www.reddit.com",
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
@@ -18,7 +18,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -42,6 +44,7 @@
   "devDependencies": {
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "gh-pages": "^6.2.0",
     "prettier": "3.4.2"
   }
 }

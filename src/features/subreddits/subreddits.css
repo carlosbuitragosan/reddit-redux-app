@@ -12,12 +12,19 @@
   transition: transform var(--animation);
   visibility: hidden;
   overflow-y: auto;
-  background: var(--background-color);
+  background: linear-gradient(
+    to left,
+    rgba(34, 40, 49, 0.89),
+    rgba(38, 43, 52, 0.94),
+    rgba(41, 47, 56, 0.96),
+    rgba(45, 50, 59, 0.98),
+    rgba(49, 54, 63, 1)
+  );
   min-height: 100vh;
   display: flex;
   gap: 1rem;
   padding: 3rem 0 2rem 1rem;
-  opacity: 0.94;
+  /* opacity: 0.96; */
 }
 
 /* the class name 'open' is added in Subreddits component */
@@ -38,7 +45,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     background: var(--background-color);
-    justify-content: space-around;
+    justify-content: center;
     padding: 1rem 2rem 3rem 2rem;
   }
 

@@ -13,7 +13,7 @@ export const Comments = ({ permalink }) => {
   if (!comments) return <div>Comments not found.</div>;
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="comments__container">Loading...</div>;
   } else if (isError) {
     return <div>Error: {error.messge || 'something went wrong.'}</div>;
   } else if (isSuccess) {
